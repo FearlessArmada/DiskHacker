@@ -17,6 +17,13 @@ namespace DiskHacker
             DriveInfo[] allDrives = DriveInfo.GetDrives();
 
             comboBox1.DataSource = allDrives;
+
+            // Calculate the amount of sectors on the drive
+            long size = ((DriveInfo)comboBox1.SelectedItem).TotalSize;
+            int sectors = (int)(size / 512);
+
+            // Set textBox1 to the amount of sectors
+            textBox1.Text = sectors.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -114,6 +121,16 @@ namespace DiskHacker
                 // Write to file
                 File.WriteAllBytes(sfd.FileName, rawdata);
             }
-    }
+        }
+
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            // Set new Sector value based on the new calculated disk size
+            long size = ((DriveInfo)comboBox1.SelectedItem).TotalSize;
+            int sectors = (int)(size / 512);
+
+            // Set textBox1 to the amount of sectors
+            textBox1.Text = sectors.ToString();
+        }
     }
 }
